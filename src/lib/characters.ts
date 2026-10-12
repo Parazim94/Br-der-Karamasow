@@ -112,6 +112,26 @@ export const CHARACTERS: Character[] = [
       { at: at(3, 3), text: "Stolze, gebildete junge Frau aus guter Familie. Verlobte von Dmitri." },
     ],
   },
+  {
+    id: "chochlakowa",
+    name: "Frau Chochlakowa",
+    aliases: ["Chochlakowa", "Frau Chochlakowa", "die Chochlakowa"],
+    role: "Wohlhabende Dame, Besucherin beim Starez",
+    unlockAt: at(2, 4),
+    facts: [
+      { at: at(2, 4), text: "Reiche, gefühlvolle Dame, die an ihrem Glauben zweifelt und bei Sossima Rat sucht." },
+    ],
+  },
+  {
+    id: "rakitin",
+    name: "Michail Rakitin",
+    aliases: ["Rakitin", "Mischa", "Michail Ossipowitsch"],
+    role: "Seminarist, Bekannter Aljoschas",
+    unlockAt: at(2, 7),
+    facts: [
+      { at: at(2, 7), text: "Ehrgeiziger Seminarist, der sich für klüger hält als die Mönche. Kennt Aljoscha und deutet Ereignisse gern auf eigene Art." },
+    ],
+  },
 ];
 
 export function normalize(s: string): string {
