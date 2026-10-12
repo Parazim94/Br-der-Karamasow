@@ -80,6 +80,15 @@ export default function HomeView() {
         </Link>
       </section>
 
+      <section className="rounded-2xl border border-line bg-card p-5">
+        <p className="text-sm text-muted">Philosophieren</p>
+        <p className="mt-1 font-serif text-xl">Denk mit einer KI nach</p>
+        <p className="mt-1 text-sm text-muted">Sokratisch oder als Advocatus Diaboli, ohne Spoiler.</p>
+        <Link href="/denken" className="mt-3 inline-block text-sm font-semibold text-accent">
+          Gespräch starten →
+        </Link>
+      </section>
+
       {progress === 0 && (
         <p className="text-sm leading-relaxed text-muted">
           Du hast noch nicht angefangen? Perfekt. Hier ist nichts gesperrt, was du brauchst, und nichts offen, was dir
