@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Lora } from "next/font/google";
 import "./globals.css";
 import BottomNav from "@/components/BottomNav";
+import ServiceWorker from "@/components/ServiceWorker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,6 +17,7 @@ const lora = Lora({
 export const metadata: Metadata = {
   title: "Karamasow-Begleiter",
   description: "Spoilerfreier Lesebegleiter zu „Die Brüder Karamasow“",
+  appleWebApp: { capable: true, title: "Karamasow", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {
@@ -33,6 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full">
         <main className="mx-auto w-full max-w-md px-4 pb-28 pt-6">{children}</main>
         <BottomNav />
+        <ServiceWorker />
       </body>
     </html>
   );
