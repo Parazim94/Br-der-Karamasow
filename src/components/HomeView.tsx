@@ -4,12 +4,14 @@ import Link from "next/link";
 import { TOTAL_CHAPTERS, describe } from "@/lib/book";
 import { CHARACTERS, isUnlocked } from "@/lib/characters";
 import { useProgress } from "@/lib/progress";
+import { summaryFor } from "@/lib/summaries";
 
 export default function HomeView() {
   const [progress, setProgress] = useProgress();
   const percent = Math.round((progress / TOTAL_CHAPTERS) * 100);
   const unlocked = CHARACTERS.filter((c) => isUnlocked(c.unlockAt, progress)).length;
   const finished = progress >= TOTAL_CHAPTERS;
+  const recap = summaryFor(progress);
 
   return (
     <div className="space-y-6">
@@ -59,6 +61,13 @@ export default function HomeView() {
           Stand an anderer Stelle setzen
         </Link>
       </section>
+
+      {recap && (
+        <section className="rounded-2xl border border-line bg-card p-5">
+          <p className="text-sm text-muted">Zuletzt gelesen, kurz erinnert</p>
+          <p className="mt-2 leading-relaxed">{recap.text}</p>
+        </section>
+      )}
 
       <section className="rounded-2xl border border-line bg-card p-5">
         <p className="text-sm text-muted">Figuren</p>

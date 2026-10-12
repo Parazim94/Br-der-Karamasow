@@ -1,7 +1,8 @@
 "use client";
 
-import { BOOKS, chapterNumber } from "@/lib/book";
+import { BOOKS, chapterNumber, locate } from "@/lib/book";
 import { useProgress } from "@/lib/progress";
+import { SUMMARIES } from "@/lib/summaries";
 
 export default function ChapterList() {
   const [progress, setProgress] = useProgress();
@@ -39,9 +40,31 @@ export default function ChapterList() {
                 );
               })}
             </ul>
+            <Recaps bookId={book.id} progress={progress} />
           </section>
         );
       })}
+    </div>
+  );
+}
+
+function Recaps({ bookId, progress }: { bookId: number; progress: number }) {
+  const items = SUMMARIES.filter((x) => {
+    const loc = locate(x.at);
+    return loc?.book.id === bookId && x.at <= progress;
+  });
+  if (items.length === 0) return null;
+
+  return (
+    <div className="mt-3 space-y-2">
+      {items.map((x) => (
+        <details key={x.at} className="rounded-xl border border-line bg-card px-4 py-1">
+          <summary className="min-h-11 cursor-pointer list-none py-3 text-sm font-medium">
+            Rückblick Kapitel {locate(x.at)?.chapter}
+          </summary>
+          <p className="pb-3 text-sm leading-relaxed">{x.text}</p>
+        </details>
+      ))}
     </div>
   );
 }
