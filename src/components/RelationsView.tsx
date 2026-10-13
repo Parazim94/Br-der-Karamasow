@@ -33,7 +33,7 @@ export default function RelationsView() {
 
   return (
     <div className="space-y-5">
-      <svg viewBox="0 0 360 450" className="h-auto w-full" role="group" aria-label="Beziehungskarte">
+      <svg viewBox="0 0 360 480" className="h-auto w-full" role="group" aria-label="Beziehungskarte">
         {[...edges]
           .sort((e1, e2) => Number(isActive(e1.r, active)) - Number(isActive(e2.r, active)))
           .map(({ r }) => {
@@ -83,7 +83,7 @@ export default function RelationsView() {
               >
                 {short[0]}
               </text>
-              <text x={x} y={y + 46} textAnchor="middle" fontSize={12} className="fill-ink">
+              <text x={x} y={y + 46} textAnchor="middle" fontSize={12} strokeWidth={4} paintOrder="stroke" className="fill-ink stroke-paper">
                 {short}
               </text>
             </g>

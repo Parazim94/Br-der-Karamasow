@@ -2,7 +2,7 @@ import { chapterNumber } from "./book";
 
 const at = chapterNumber;
 
-// Position und Kurzname pro Figur im Graphen (viewBox 360 × 450).
+// Position und Kurzname pro Figur im Graphen (viewBox 360 × 480).
 export const LAYOUT: Record<string, { short: string; x: number; y: number }> = {
   miusow: { short: "Miusow", x: 50, y: 50 },
   fjodor: { short: "Fjodor", x: 180, y: 50 },
