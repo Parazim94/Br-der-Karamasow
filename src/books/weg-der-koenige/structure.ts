@@ -15,6 +15,11 @@ const POV: Record<string, string> = {
   "Kapitel 4": "Kaladin",
   "Kapitel 5": "Shallan",
   "Kapitel 6": "Kaladin",
+  "Kapitel 7": "Shallan",
+  "Kapitel 8": "Shallan",
+  "Kapitel 9": "Kaladin",
+  "Kapitel 10": "Kaladin",
+  "Kapitel 11": "Kaladin",
 };
 
 const unit = (name: string, title?: string, mark?: string): Unit => ({

@@ -92,10 +92,15 @@ export default function RelationsView({ book }: { book: Book }) {
         })}
       </svg>
 
-      <section className="rounded-2xl border border-line bg-card p-4">
+      <section className="sticky bottom-20 max-h-[40vh] overflow-y-auto rounded-2xl border border-line bg-card p-4">
         {activeChar ? (
           <>
-            <p className="font-serif text-xl">{activeChar.name}</p>
+            <div className="flex items-start justify-between gap-3">
+              <p className="font-serif text-xl">{activeChar.name}</p>
+              <button type="button" onClick={() => setSelected(null)} className="-mr-2 -mt-2 min-h-11 px-2 text-sm text-muted">
+                Schließen
+              </button>
+            </div>
             {activeEdges.length === 0 ? (
               <p className="mt-2 text-sm text-muted">Bisher sind dir keine Beziehungen zu anderen bekannt.</p>
             ) : (

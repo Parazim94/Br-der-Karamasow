@@ -44,7 +44,12 @@ export function validateBook(book: Book): void {
     for (const id of [r.a, r.b]) if (!ids.has(id)) err(`Beziehung ${r.a}–${r.b}: unbekannte Figur „${id}“`);
     for (const l of r.labels) if (!inRange(l.at)) err(`Beziehung ${r.a}–${r.b}: Stelle ${l.at} liegt außerhalb des Buchs`);
   }
-  for (const id of Object.keys(book.graph.nodes)) if (!ids.has(id)) err(`Beziehungskarte: unbekannte Figur „${id}“`);
+  for (const [id, n] of Object.entries(book.graph.nodes)) {
+    if (!ids.has(id)) err(`Beziehungskarte: unbekannte Figur „${id}“`);
+    if (n.x < 30 || n.x > 330 || n.y < 30 || n.y > book.graph.height - 50) {
+      err(`Beziehungskarte: „${id}“ liegt zu nah am Rand oder außerhalb (${n.x}, ${n.y}, Höhe ${book.graph.height})`);
+    }
+  }
 
   const more = book.nav.more ?? [];
   const all = [...book.nav.tabs, ...more];

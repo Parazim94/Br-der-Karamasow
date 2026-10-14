@@ -46,4 +46,29 @@ export const SUMMARIES: Summary[] = [
     6,
     "Kaladin und die anderen Sklaven erreichen das Heerlager von Großprinz Sadeas. Kaladin bittet darum, kämpfen zu dürfen, doch Tvlakv meldet ihn als Deserteur. Die Frau, die über die Sklaven entscheidet, weist ihn und seine Gefährten den Brückenmannschaften zu. Der Aufseher Gaz mag Kaladin sofort nicht und gibt ihm einen der schlechtesten Plätze an der Brücke, ohne Schuhe und Weste. Beim ersten Einsatz geraten sie unter Pfeilbeschuss, und Kaladin überlebt als Einziger der vordersten Reihe. Später weckt ihn das windartige Wesen, das ihm gefolgt ist, und stellt sich als Syl vor.",
   ),
+  s(
+    "teil-1",
+    7,
+    "Shallan geht zur großen Bibliothek, um Jasnah doch noch zu überzeugen, dass sie als Mündel taugt. Sie darf in Jasnahs Leseplatz warten, in die Bibliothek selbst aber nicht. Beim Warten stellt sich ihr ein gelehrter Geistlicher namens Kabsal vor. Am Ende steht Jasnah in der Tür, sichtlich verärgert.",
+  ),
+  s(
+    "teil-1",
+    8,
+    "Jasnah weist Shallan zunächst scharf zurecht, ruft sie dann aber zurück und entschuldigt sich. Sie ist beeindruckt, dass Shallan sich vieles selbst beigebracht hat, und will sie als Mündel aufnehmen, sobald sie Geschichte und Philosophie nachgeholt hat. Shallan kauft Bücher, um schnell aufzuholen, und fragt in einer Buchhandlung nach einem Roman, dessen Titel dem Kapitel den Namen gibt. Jasnah findet in Shallans Tasche Skizzen mit Notizen zur Biologie, und dass Shallan sich in ihrer freien Zeit mit Wissenschaft beschäftigt, überzeugt sie endgültig. Shallan hat damit den ersten Teil ihres heimlichen Plans geschafft, muss aber noch klären, wie sie den Rest erreicht, ohne erwischt zu werden.",
+  ),
+  s(
+    "teil-1",
+    9,
+    "Kaladin ist seit einigen Wochen bei den Brückenmannschaften. Von seinem ersten Einsatz lebt außer ihm nur noch ein weiterer Mann. Unter den Neuen ist ein Junge, der ihn an seinen jüngeren Bruder Tien erinnert. Kaladin kommt mit seiner Lage immer schlechter zurecht, fährt Syl an und versinkt in Verzweiflung. Syl verlässt ihn. Beim nächsten Einsatz sterben der Junge und der letzte Überlebende von Kaladins erstem Einsatz. Kaladin hat das Gefühl, innerlich tot zu sein, und weint.",
+  ),
+  s(
+    "teil-1",
+    10,
+    "Ein Rückblick auf Kaladins Kindheit. Kaladin, als Junge Kal genannt, hilft seinem Vater Lirin, einem Chirurgen, bei der Behandlung einer jungen Frau namens Sani, der ein Finger amputiert werden muss. Er denkt darüber nach, dass seine Familie wegen des Berufs des Vaters anders behandelt wird. Danach fragt Lirin, warum Kaladin zu spät kam: Er hat mit einem Jungen namens Jam den Stockkampf geübt. Es folgt ein Streit darüber, ob Soldaten oder Chirurgen mehr Leben retten. Lirin sagt, Töten könne kein Leben retten, das sei, als wolle man einen Sturm aufhalten, indem man stärker bläst. Er prüft Kaladins Wissen, lobt seine Begabung und hofft, ihn zur Ausbildung nach Kharbranth schicken zu können.",
+  ),
+  s(
+    "teil-1",
+    11,
+    "Nach einem Sturm geht Kaladin völlig verzweifelt zu einer Kluft, um nicht mehr weiterzuleben. Gaz hält ihn auf und beschuldigt ihn, draußen liegende Wertgegenstände stehlen zu wollen, doch Kaladin beachtet ihn nicht. Am Rand der Kluft taucht Syl wieder auf. Kaladin klagt, dass er niemanden beschützen konnte. Syl überzeugt ihn, es noch einmal zu versuchen: Die Brückenmänner sterben ohnehin, also kann sein Einsatz nichts verschlimmern. Kaladin kehrt zum Lager zurück, wirft Gaz zu Boden und verlangt, Brücke Vier mit voller Befehlsgewalt anführen zu dürfen. Gaz bekommt dafür einen Teil von Kaladins Lohn. Am Ende geht Kaladin in die Baracke und beginnt, die Männer nach ihren Namen zu fragen.",
+  ),
 ];

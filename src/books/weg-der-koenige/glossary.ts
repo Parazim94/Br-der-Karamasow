@@ -49,4 +49,11 @@ export const GLOSSARY: GlossaryEntry[] = [
     text: "Eine der Brückenmannschaften im Heerlager von Großprinz Sadeas. Sie tragen Brücken zu den Einsatzorten und setzen sie dort ein, dabei sind sie Pfeilbeschuss ausgesetzt. Kaladin wird einer solchen Mannschaft zugeteilt.",
     at: K(6),
   },
+  {
+    id: "palanaeum",
+    term: "Palanaeum",
+    aliases: ["Palanaeum", "Palanäum", "Palaneum", "große Bibliothek", "Bibliothek von Kharbranth"],
+    text: "Die große Bibliothek von Kharbranth. Der König erlaubt Jasnah, sie zu betreten.",
+    at: K(5),
+  },
 ];

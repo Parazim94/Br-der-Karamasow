@@ -95,6 +95,14 @@ export const CHARACTERS: Character[] = [
         at: K(6),
         text: "Er wird einer Brückenmannschaft zugeteilt und überlebt den ersten Einsatz als Einziger der vordersten Reihe.",
       },
+      {
+        at: K(10),
+        text: "Als Junge wurde er Kal genannt. Sein Vater Lirin ist Chirurg, und Kaladin hat ihm bei Behandlungen geholfen. Schon damals wollte er lieber Soldat werden.",
+      },
+      {
+        at: K(11),
+        text: "Am Tiefpunkt will er nicht mehr weitermachen, doch Syl überzeugt ihn, es noch einmal zu versuchen. Er verlangt von Gaz, Brücke Vier anführen zu dürfen, und beginnt, die Männer nach ihren Namen zu fragen.",
+      },
     ],
   },
   {
@@ -164,6 +172,14 @@ export const CHARACTERS: Character[] = [
         at: K(5),
         text: "Jasnah hört ihre Bitte an, lehnt aber ab. Shallans eigentliches Ziel: Sie will Jasnahs besonderes Gerät stehlen, um ihrer Familie zu helfen.",
       },
+      {
+        at: K(7),
+        text: "Sie wartet in Jasnahs Leseplatz in der großen Bibliothek, darf die Bibliothek selbst aber nicht betreten.",
+      },
+      {
+        at: K(8),
+        text: "Jasnah ist beeindruckt davon, dass sie sich vieles selbst beigebracht hat, und nimmt sie als Mündel an. Damit hat Shallan den ersten Teil ihres heimlichen Plans geschafft.",
+      },
     ],
   },
   {
@@ -177,6 +193,10 @@ export const CHARACTERS: Character[] = [
       {
         at: K(5),
         text: "Sie verhandelt gerade mit dem König von Kharbranth und prüft Shallan wie eine Lehrerin: stark in den Naturwissenschaften, schwach in Geschichte und Philosophie. Mit einem besonderen Gerät verwandelt sie einen Stein in Rauch und befreit so die Enkelin des Königs.",
+      },
+      {
+        at: K(8),
+        text: "Sie entschuldigt sich bei Shallan für ihre Schärfe, findet in deren Tasche Skizzen mit Notizen zur Biologie und willigt ein, sie als Mündel aufzunehmen.",
       },
     ],
   },
@@ -204,6 +224,10 @@ export const CHARACTERS: Character[] = [
         at: K(6),
         text: "Mag Kaladin von Anfang an nicht und gibt ihm einen der schlechtesten Plätze an der Brücke, ohne Schuhe und Weste.",
       },
+      {
+        at: K(11),
+        text: "Kaladin wirft ihn zu Boden und handelt aus, dass er Brücke Vier anführen darf. Gaz bekommt dafür einen Teil von Kaladins Lohn.",
+      },
     ],
   },
   {
@@ -216,6 +240,41 @@ export const CHARACTERS: Character[] = [
       {
         at: K(6),
         text: "Das geheimnisvolle, windartige Wesen, das Kaladin schon seit der Karawane folgt, stellt sich ihm nun als Syl vor.",
+      },
+      { at: K(9), text: "Kaladin fährt sie in seiner Verzweiflung an, und sie verlässt ihn." },
+      { at: K(11), text: "Sie kehrt zurück und überzeugt Kaladin, es noch einmal zu versuchen." },
+    ],
+  },
+  {
+    id: "kabsal",
+    name: "Kabsal",
+    aliases: ["Kabsal", "Kapsal", "Kabsahl"],
+    role: "Gelehrter Geistlicher",
+    unlockAt: K(7),
+    facts: [
+      { at: K(7), text: "Stellt sich Shallan vor, während sie in der Bibliothek auf Jasnah wartet." },
+    ],
+  },
+  {
+    id: "tien",
+    name: "Tien",
+    aliases: ["Tien", "Tin", "Tihn"],
+    role: "Kaladins jüngerer Bruder",
+    unlockAt: K(9),
+    facts: [
+      { at: K(9), text: "Ein neuer Junge in der Brückenmannschaft erinnert Kaladin an seinen jüngeren Bruder Tien." },
+    ],
+  },
+  {
+    id: "lirin",
+    name: "Lirin",
+    aliases: ["Lirin", "Lirien", "Lirinn"],
+    role: "Kaladins Vater, Chirurg",
+    unlockAt: K(10),
+    facts: [
+      {
+        at: K(10),
+        text: "Chirurg und Kaladins Vater. Er hofft, dass sein Sohn Chirurg wird und nicht Soldat, und möchte ihn zur Ausbildung nach Kharbranth schicken.",
       },
     ],
   },
