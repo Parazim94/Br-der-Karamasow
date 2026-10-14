@@ -1,28 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { TOTAL_CHAPTERS, describe } from "@/lib/book";
-import { CHARACTERS, isUnlocked } from "@/lib/characters";
+import type { Book } from "@/books/types";
+import { describe, totalChapters } from "@/lib/book";
 import { useProgress } from "@/lib/progress";
-import { summaryFor } from "@/lib/summaries";
+import { isUnlocked, summaryFor } from "@/lib/unlock";
 
-export default function HomeView() {
-  const [progress, setProgress] = useProgress();
-  const percent = Math.round((progress / TOTAL_CHAPTERS) * 100);
-  const unlocked = CHARACTERS.filter((c) => isUnlocked(c.unlockAt, progress)).length;
-  const finished = progress >= TOTAL_CHAPTERS;
-  const recap = summaryFor(progress);
+export default function HomeView({ book }: { book: Book }) {
+  const [progress, setProgress] = useProgress(book);
+  const total = totalChapters(book);
+  const percent = Math.round((progress / total) * 100);
+  const unlocked = book.characters.filter((c) => isUnlocked(c.unlockAt, progress)).length;
+  const finished = progress >= total;
+  const recap = summaryFor(book, progress);
 
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="font-serif text-3xl leading-tight">Die Brüder Karamasow</h1>
+        <Link href="/" className="mb-2 inline-block text-sm text-accent">
+          ← Bibliothek
+        </Link>
+        <h1 className="font-serif text-3xl leading-tight">{book.title}</h1>
         <p className="mt-1 text-sm text-muted">Dein spoilerfreier Lesebegleiter</p>
       </header>
 
       <section className="rounded-2xl border border-line bg-card p-5">
         <p className="text-sm text-muted">Dein Stand</p>
-        <p className="mt-1 font-serif text-xl">{describe(progress)}</p>
+        <p className="mt-1 font-serif text-xl">{describe(book, progress)}</p>
 
         <div
           className="mt-4 h-2 overflow-hidden rounded-full bg-line"
@@ -35,7 +39,7 @@ export default function HomeView() {
           <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${percent}%` }} />
         </div>
         <p className="mt-2 text-xs text-muted">
-          {progress} von {TOTAL_CHAPTERS} Kapiteln · {percent} %
+          {progress} von {total} Kapiteln · {percent} %
         </p>
 
         <div className="mt-5 flex gap-3">
@@ -57,7 +61,7 @@ export default function HomeView() {
             ↩
           </button>
         </div>
-        <Link href="/kapitel" className="mt-3 block text-center text-sm text-accent underline-offset-4 hover:underline">
+        <Link href={`/${book.slug}/kapitel`} className="mt-3 block text-center text-sm text-accent underline-offset-4 hover:underline">
           Stand an anderer Stelle setzen
         </Link>
       </section>
@@ -72,22 +76,24 @@ export default function HomeView() {
       <section className="rounded-2xl border border-line bg-card p-5">
         <p className="text-sm text-muted">Figuren</p>
         <p className="mt-1 font-serif text-xl">
-          {unlocked} von {CHARACTERS.length} freigeschaltet
+          {unlocked} von {book.characters.length} freigeschaltet
         </p>
         <p className="mt-1 text-sm text-muted">Neue Figuren und Infos erscheinen, sobald du sie im Buch kennengelernt hast.</p>
-        <Link href="/figuren" className="mt-3 inline-block text-sm font-semibold text-accent">
+        <Link href={`/${book.slug}/figuren`} className="mt-3 inline-block text-sm font-semibold text-accent">
           Zu den Figuren →
         </Link>
       </section>
 
-      <section className="rounded-2xl border border-line bg-card p-5">
-        <p className="text-sm text-muted">Philosophieren</p>
-        <p className="mt-1 font-serif text-xl">Denk mit einer KI nach</p>
-        <p className="mt-1 text-sm text-muted">Sokratisch oder als Advocatus Diaboli, ohne Spoiler.</p>
-        <Link href="/denken" className="mt-3 inline-block text-sm font-semibold text-accent">
-          Gespräch starten →
-        </Link>
-      </section>
+      {book.ai && (
+        <section className="rounded-2xl border border-line bg-card p-5">
+          <p className="text-sm text-muted">Philosophieren</p>
+          <p className="mt-1 font-serif text-xl">Denk mit einer KI nach</p>
+          <p className="mt-1 text-sm text-muted">Sokratisch oder als Advocatus Diaboli, ohne Spoiler.</p>
+          <Link href={`/${book.slug}/denken`} className="mt-3 inline-block text-sm font-semibold text-accent">
+            Gespräch starten →
+          </Link>
+        </section>
+      )}
 
       {progress === 0 && (
         <p className="text-sm leading-relaxed text-muted">

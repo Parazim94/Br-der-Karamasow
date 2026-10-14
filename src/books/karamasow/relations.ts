@@ -1,9 +1,8 @@
-import { chapterNumber } from "./book";
+import type { GraphNode, Relation } from "../types";
+import { at } from "./structure";
 
-const at = chapterNumber;
-
-// Position und Kurzname pro Figur im Graphen (viewBox 360 × 480).
-export const LAYOUT: Record<string, { short: string; x: number; y: number }> = {
+// Position und Kurzname pro Figur im Graphen (Zeichenfläche 360 × 480).
+export const NODES: Record<string, GraphNode> = {
   miusow: { short: "Miusow", x: 50, y: 50 },
   fjodor: { short: "Fjodor", x: 180, y: 50 },
   smerdjakow: { short: "Smerdjakow", x: 310, y: 50 },
@@ -15,14 +14,6 @@ export const LAYOUT: Record<string, { short: string; x: number; y: number }> = {
   sossima: { short: "Sossima", x: 300, y: 300 },
   rakitin: { short: "Rakitin", x: 180, y: 410 },
   chochlakowa: { short: "Chochlakowa", x: 300, y: 410 },
-};
-
-// Eine Beziehung kann sich mit dem Lesen verändern: es gilt immer die jüngste freigeschaltete Bezeichnung.
-// aIs = was Person a für b ist (z. B. „Vater“), bIs = was b für a ist (z. B. „Sohn“).
-export type Relation = {
-  a: string;
-  b: string;
-  labels: { at: number; aIs: string; bIs: string }[];
 };
 
 export const RELATIONS: Relation[] = [
@@ -46,9 +37,3 @@ export const RELATIONS: Relation[] = [
   { a: "fjodor", b: "smerdjakow", labels: [{ at: at(3, 6), aIs: "Hausherr", bIs: "Diener" }] },
   { a: "dmitri", b: "katerina", labels: [{ at: at(3, 3), aIs: "Verlobter", bIs: "Verlobte" }] },
 ];
-
-/** Jüngste freigeschaltete Bezeichnung oder null, wenn die Beziehung noch unbekannt ist. */
-export function currentLabel(r: Relation, progress: number) {
-  const unlocked = r.labels.filter((l) => l.at <= progress);
-  return unlocked.length ? unlocked[unlocked.length - 1] : null;
-}

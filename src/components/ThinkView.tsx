@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { Book } from "@/books/types";
 import { describe } from "@/lib/book";
-import { STARTERS, type Mode } from "@/lib/philosophy";
+import type { Mode } from "@/lib/philosophy";
 import { useProgress } from "@/lib/progress";
 
 type Msg = { role: "user" | "assistant"; text: string };
@@ -22,8 +23,8 @@ function loadPass(): string {
   }
 }
 
-export default function ThinkView() {
-  const [progress] = useProgress();
+export default function ThinkView({ book }: { book: Book }) {
+  const [progress] = useProgress(book);
   const [mode, setMode] = useState<Mode>("sokrates");
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -54,7 +55,7 @@ export default function ThinkView() {
       const res = await fetch("/api/denken", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-passphrase": pass },
-        body: JSON.stringify({ messages: next, mode, progress }),
+        body: JSON.stringify({ book: book.slug, messages: next, mode, progress }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -94,12 +95,12 @@ export default function ThinkView() {
       </div>
       <p className="text-sm text-muted">{MODES.find((m) => m.id === mode)?.hint}</p>
       <p className="text-xs text-muted">
-        Die KI kennt nur den Stand bis: {describe(progress)}. Sie kann sich trotzdem einmal irren oder etwas verraten.
+        Die KI kennt nur den Stand bis: {describe(book, progress)}. Sie kann sich trotzdem einmal irren oder etwas verraten.
       </p>
 
       {messages.length === 0 && (
         <ul className="flex flex-col gap-2">
-          {STARTERS.map((s) => (
+          {(book.ai?.starters ?? []).map((s) => (
             <li key={s}>
               <button
                 type="button"

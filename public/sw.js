@@ -1,6 +1,6 @@
 // Einfacher Service Worker: Seiten zuerst aus dem Netz (damit Updates ankommen), sonst aus dem Cache.
 // Unveränderliche Build-Dateien und Icons kommen zuerst aus dem Cache.
-const CACHE = "karamasow-v1";
+const CACHE = "karamasow-v2";
 
 self.addEventListener("install", () => self.skipWaiting());
 

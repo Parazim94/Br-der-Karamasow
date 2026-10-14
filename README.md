@@ -63,15 +63,18 @@ Lesestand, Notizen und Tipps liegen **nur im Browser deines Geräts** (`localSto
 
 ```
 src/
+├─ books/
+│  ├─ types.ts         Datenmodell eines Buchs
+│  ├─ registry.ts      Liste aller Bücher
+│  └─ karamasow/       Inhalte eines Buchs: Aufbau, Figuren, Beziehungen, Rückblicke
 ├─ lib/
-│  ├─ book.ts          Struktur: Bücher und Kapitel, globale Kapitelnummer
-│  ├─ characters.ts    Figuren mit Spitznamen und Infos je Freischaltpunkt
-│  ├─ relations.ts     Beziehungen und Layout der Karte
-│  ├─ summaries.ts     Rückblicke pro Kapitel
-│  ├─ progress.ts      Lesestand (localStorage)
+│  ├─ book.ts          Kapitelzählung (global über alle Abschnitte)
+│  ├─ unlock.ts        Freischalt-Logik und Suche
+│  ├─ progress.ts      Lesestand pro Buch (localStorage)
+│  ├─ keys.ts          Speicherschlüssel und Übernahme alter Daten
 │  └─ philosophy.ts    Prompts und Wissensgrenze der KI
 ├─ components/         Oberfläche
-└─ app/                Seiten und die KI-Route
+└─ app/                Bibliothek (/), Seiten pro Buch (/[buch]/…) und die KI-Route
 ```
 
 ## Lokal starten

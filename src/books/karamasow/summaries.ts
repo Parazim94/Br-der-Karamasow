@@ -1,12 +1,11 @@
-import { chapterNumber } from "./book";
+import type { Summary } from "../types";
+import { at } from "./structure";
 
 // Kurze Erinnerungsstützen, selbst geschrieben und aus dem Gedächtnis (nicht aus einer Ausgabe).
 // Sie enthalten nur, was im jeweiligen Kapitel selbst vorkommt. Ein Kapitel erscheint erst, wenn es gelesen ist.
 // Kapitelgrenzen können in der Ausgabe von Röhl (Anaconda) leicht abweichen.
-export type Summary = { at: number; text: string };
-
 const s = (book: number, chapter: number, text: string): Summary => ({
-  at: chapterNumber(book, chapter),
+  at: at(book, chapter),
   text,
 });
 
@@ -77,8 +76,3 @@ export const SUMMARIES: Summary[] = [
     "Das Mittagessen beim Abt endet in einem Skandal: Fjodor beleidigt die Mönche und seine Gäste. Miusow verlässt gekränkt die Runde. Die Aussprache hat nichts gelöst, die Spannungen sind größer als zuvor.",
   ),
 ];
-
-/** Zusammenfassung des zuletzt gelesenen Kapitels (oder null). */
-export function summaryFor(n: number): Summary | null {
-  return SUMMARIES.find((x) => x.at === n) ?? null;
-}

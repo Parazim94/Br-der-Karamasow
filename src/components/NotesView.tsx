@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import type { Book } from "@/books/types";
 import { describe } from "@/lib/book";
 import { useProgress } from "@/lib/progress";
+import { storageKey } from "@/lib/keys";
 import { formatDate, newId, useStoredList } from "@/lib/store";
 
 type Note = { id: string; createdAt: number; at: number; text: string; quote: boolean };
 
-export default function NotesView() {
-  const [progress] = useProgress();
-  const [notes, update] = useStoredList<Note>("karamasow:notes:v1");
+export default function NotesView({ book }: { book: Book }) {
+  const [progress] = useProgress(book);
+  const [notes, update] = useStoredList<Note>(storageKey(book.slug, "notes"));
   const [text, setText] = useState("");
   const [quote, setQuote] = useState(false);
   const [onlyQuotes, setOnlyQuotes] = useState(false);
@@ -25,7 +27,7 @@ export default function NotesView() {
   function exportNotes() {
     const lines = [...notes]
       .reverse()
-      .map((n) => `[${describe(n.at)} · ${formatDate(n.createdAt)}]${n.quote ? " Zitat" : ""}\n${n.text}\n`);
+      .map((n) => `[${describe(book, n.at)} · ${formatDate(n.createdAt)}]${n.quote ? " Zitat" : ""}\n${n.text}\n`);
     const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -40,7 +42,7 @@ export default function NotesView() {
     <div className="space-y-5">
       <section className="rounded-2xl border border-line bg-card p-4">
         <label className="block">
-          <span className="text-xs text-muted">Notiz zu: {describe(progress)}</span>
+          <span className="text-xs text-muted">Notiz zu: {describe(book, progress)}</span>
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -85,7 +87,7 @@ export default function NotesView() {
         {shown.map((n) => (
           <li key={n.id} className="rounded-2xl border border-line bg-card p-4">
             <p className="text-xs text-muted">
-              {describe(n.at)} · {formatDate(n.createdAt)}
+              {describe(book, n.at)} · {formatDate(n.createdAt)}
               {n.quote && " · Zitat"}
             </p>
             <p className={`mt-2 whitespace-pre-wrap leading-relaxed ${n.quote ? "font-serif italic" : ""}`}>{n.text}</p>

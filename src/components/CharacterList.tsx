@@ -2,15 +2,16 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { CHARACTERS, isUnlocked, matches } from "@/lib/characters";
+import type { Book } from "@/books/types";
 import { useProgress } from "@/lib/progress";
+import { isUnlocked, matches } from "@/lib/unlock";
 
-export default function CharacterList() {
-  const [progress] = useProgress();
+export default function CharacterList({ book }: { book: Book }) {
+  const [progress] = useProgress(book);
   const [query, setQuery] = useState("");
 
-  const visible = CHARACTERS.filter((c) => isUnlocked(c.unlockAt, progress));
-  const hidden = CHARACTERS.length - visible.length;
+  const visible = book.characters.filter((c) => isUnlocked(c.unlockAt, progress));
+  const hidden = book.characters.length - visible.length;
   const results = visible.filter((c) => matches(c, query));
 
   return (
@@ -36,7 +37,7 @@ export default function CharacterList() {
       <ul className="space-y-3">
         {results.map((c) => (
           <li key={c.id}>
-            <Link href={`/figuren/${c.id}`} className="block rounded-2xl border border-line bg-card p-4 active:bg-line">
+            <Link href={`/${book.slug}/figuren/${c.id}`} className="block rounded-2xl border border-line bg-card p-4 active:bg-line">
               <p className="font-serif text-lg leading-snug">{c.name}</p>
               <p className="mt-0.5 text-sm text-muted">{c.role}</p>
             </Link>

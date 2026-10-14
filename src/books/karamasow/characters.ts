@@ -1,20 +1,5 @@
-import { chapterNumber } from "./book";
-
-// Jede Info ist erst sichtbar, wenn `at` (globale Kapitelnummer) gelesen ist.
-// Regel: Eine Info darf nur Wissen enthalten, das das Buch bis dahin preisgibt.
-// Freischaltpunkte sind bewusst eher zu spät als zu früh gesetzt.
-export type Fact = { at: number; text: string };
-
-export type Character = {
-  id: string;
-  name: string;
-  aliases: string[];
-  role: string;
-  unlockAt: number;
-  facts: Fact[];
-};
-
-const at = chapterNumber;
+import type { Character } from "../types";
+import { at } from "./structure";
 
 export const CHARACTERS: Character[] = [
   {
@@ -133,21 +118,3 @@ export const CHARACTERS: Character[] = [
     ],
   },
 ];
-
-export function normalize(s: string): string {
-  return s
-    .toLowerCase()
-    .replace(/ß/g, "ss")
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "");
-}
-
-export function isUnlocked(unlockAt: number, progress: number): boolean {
-  return unlockAt <= progress;
-}
-
-export function matches(c: Character, query: string): boolean {
-  const q = normalize(query.trim());
-  if (!q) return true;
-  return [c.name, ...c.aliases].some((n) => normalize(n).includes(q));
-}

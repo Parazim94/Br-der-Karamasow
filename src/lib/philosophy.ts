@@ -1,25 +1,18 @@
+import type { Book } from "@/books/types";
 import { describe } from "./book";
-import { CHARACTERS, isUnlocked } from "./characters";
-import { SUMMARIES } from "./summaries";
+import { isUnlocked } from "./unlock";
 
 export type Mode = "sokrates" | "advocatus";
 
-export const STARTERS = [
-  "Kann man ohne Glauben moralisch leben?",
-  "Ist Vergebung immer richtig?",
-  "Wie viel Verantwortung trägt man für die eigene Familie?",
-  "Macht Freiheit glücklich?",
-];
-
 /** Wissen, das die KI haben darf: nur freigeschaltete Inhalte. */
-function knownContent(progress: number): string {
-  const chars = CHARACTERS.filter((c) => isUnlocked(c.unlockAt, progress))
+function knownContent(book: Book, progress: number): string {
+  const chars = book.characters.filter((c) => isUnlocked(c.unlockAt, progress))
     .map((c) => {
       const facts = c.facts.filter((f) => isUnlocked(f.at, progress)).map((f) => f.text);
       return `- ${c.name} (${c.role}): ${facts.join(" ")}`;
     })
     .join("\n");
-  const recaps = SUMMARIES.filter((s) => s.at <= progress)
+  const recaps = book.summaries.filter((s) => s.at <= progress)
     .map((s) => s.text)
     .join("\n");
   return `FIGUREN:\n${chars || "(noch keine)"}\n\nBISHERIGER HANDLUNGSVERLAUF:\n${recaps || "(noch nichts gelesen)"}`;
@@ -38,10 +31,10 @@ const MODE_RULES: Record<Mode, string> = {
 - Ende mit einer Gegenfrage oder Herausforderung.`,
 };
 
-export function buildSystemPrompt(mode: Mode, progress: number): string {
-  return `Du bist ein philosophischer Gesprächspartner in einer Lese-App für Menschen, die „Die Brüder Karamasow“ von Dostojewski zum ersten Mal lesen. Du sprichst Deutsch und duzt den Nutzer.
+export function buildSystemPrompt(book: Book, mode: Mode, progress: number): string {
+  return `Du bist ein philosophischer Gesprächspartner in einer Lese-App für Menschen, die „${book.title}“ von ${book.author} zum ersten Mal lesen. Du sprichst Deutsch und duzt den Nutzer.
 
-LESESTAND DES NUTZERS: ${describe(progress)}.
+LESESTAND DES NUTZERS: ${describe(book, progress)}.
 
 SPOILER-REGELN (haben Vorrang vor allem anderen):
 - Dein Wissen über die Handlung endet exakt beim Lesestand des Nutzers. Du kennst nur den Inhalt unten.
@@ -54,5 +47,5 @@ ${MODE_RULES[mode]}
 STIL: Der Nutzer liest auf dem Handy. Antworte in höchstens 4–5 kurzen Sätzen, ohne Aufzählungen und ohne Überschriften.
 
 INHALT, DEN DER NUTZER BEREITS KENNT:
-${knownContent(progress)}`;
+${knownContent(book, progress)}`;
 }

@@ -2,18 +2,19 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { CHARACTERS, isUnlocked } from "@/lib/characters";
-import { LAYOUT, RELATIONS, currentLabel } from "@/lib/relations";
+import type { Book } from "@/books/types";
 import { useProgress } from "@/lib/progress";
+import { currentLabel, isUnlocked } from "@/lib/unlock";
 
-export default function RelationsView() {
-  const [progress] = useProgress();
+export default function RelationsView({ book }: { book: Book }) {
+  const [progress] = useProgress(book);
+  const { nodes: layout, height } = book.graph;
   const [selected, setSelected] = useState<string | null>(null);
 
-  const nodes = CHARACTERS.filter((c) => LAYOUT[c.id] && isUnlocked(c.unlockAt, progress));
+  const nodes = book.characters.filter((c) => layout[c.id] && isUnlocked(c.unlockAt, progress));
   const visibleIds = new Set(nodes.map((n) => n.id));
 
-  const edges = RELATIONS.flatMap((r) => {
+  const edges = book.relations.flatMap((r) => {
     const label = currentLabel(r, progress);
     return label && visibleIds.has(r.a) && visibleIds.has(r.b) ? [{ r, label }] : [];
   });
@@ -33,12 +34,12 @@ export default function RelationsView() {
 
   return (
     <div className="space-y-5">
-      <svg viewBox="0 0 360 480" className="h-auto w-full" role="group" aria-label="Beziehungskarte">
+      <svg viewBox={`0 0 360 ${height}`} className="h-auto w-full" role="group" aria-label="Beziehungskarte">
         {[...edges]
           .sort((e1, e2) => Number(isActive(e1.r, active)) - Number(isActive(e2.r, active)))
           .map(({ r }) => {
-            const a = LAYOUT[r.a];
-            const b = LAYOUT[r.b];
+            const a = layout[r.a];
+            const b = layout[r.b];
             const hl = isActive(r, active);
             return (
               <line
@@ -55,7 +56,7 @@ export default function RelationsView() {
           })}
 
         {nodes.map((c) => {
-          const { x, y, short } = LAYOUT[c.id];
+          const { x, y, short } = layout[c.id];
           const isSel = c.id === active;
           return (
             <g
@@ -105,13 +106,13 @@ export default function RelationsView() {
                   return (
                     <li key={otherId} className="flex items-baseline justify-between gap-3 text-sm">
                       <span className="text-muted">{role}:</span>
-                      <span className="text-right font-medium">{CHARACTERS.find((c) => c.id === otherId)?.name}</span>
+                      <span className="text-right font-medium">{book.characters.find((c) => c.id === otherId)?.name}</span>
                     </li>
                   );
                 })}
               </ul>
             )}
-            <Link href={`/figuren/${activeChar.id}`} className="mt-4 inline-block text-sm font-semibold text-accent">
+            <Link href={`/${book.slug}/figuren/${activeChar.id}`} className="mt-4 inline-block text-sm font-semibold text-accent">
               Zur Figurenkarte →
             </Link>
           </>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useSyncExternalStore } from "react";
+import { ensureMigrated } from "./keys";
 
 // Kleine Liste im localStorage mit stabilem Snapshot (nur neu geparst, wenn sich der Rohtext ändert).
 const listeners = new Set<() => void>();
@@ -19,6 +20,7 @@ function subscribe(cb: () => void) {
 function readList(key: string): unknown[] {
   let raw: string | null = null;
   try {
+    ensureMigrated();
     raw = localStorage.getItem(key);
   } catch {
     return EMPTY;

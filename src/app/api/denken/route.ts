@@ -1,5 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
-import { TOTAL_CHAPTERS } from "@/lib/book";
+import { getBook } from "@/books/registry";
+import { totalChapters } from "@/lib/book";
 import { buildSystemPrompt, type Mode } from "@/lib/philosophy";
 
 const MODEL = process.env.GEMINI_MODEL ?? "gemini-3.5-flash-lite";
@@ -57,7 +58,7 @@ export async function POST(request: Request) {
     return json({ error: "Für heute ist das Limit erreicht. Versuch es später wieder." }, 429);
   }
 
-  let body: { messages?: unknown; mode?: unknown; progress?: unknown };
+  let body: { book?: unknown; messages?: unknown; mode?: unknown; progress?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -65,7 +66,10 @@ export async function POST(request: Request) {
   }
 
   const mode: Mode = body.mode === "advocatus" ? "advocatus" : "sokrates";
-  const progress = Math.min(Math.max(Math.round(Number(body.progress) || 0), 0), TOTAL_CHAPTERS);
+  const book = typeof body.book === "string" ? getBook(body.book) : undefined;
+  if (!book?.ai) return json({ error: "Dieses Buch hat kein KI-Gespräch." }, 400);
+
+  const progress = Math.min(Math.max(Math.round(Number(body.progress) || 0), 0), totalChapters(book));
   const messages = (Array.isArray(body.messages) ? body.messages : [])
     .filter(
       (m): m is Msg =>
@@ -84,7 +88,7 @@ export async function POST(request: Request) {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-goog-api-key": key },
       body: JSON.stringify({
-        systemInstruction: { parts: [{ text: buildSystemPrompt(mode, progress) }] },
+        systemInstruction: { parts: [{ text: buildSystemPrompt(book, mode, progress) }] },
         contents: messages.map((m) => ({
           role: m.role === "assistant" ? "model" : "user",
           parts: [{ text: m.text }],

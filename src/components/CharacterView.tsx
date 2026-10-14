@@ -1,15 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { CHARACTERS, isUnlocked } from "@/lib/characters";
+import type { Book } from "@/books/types";
 import { useProgress } from "@/lib/progress";
+import { isUnlocked } from "@/lib/unlock";
 
-export default function CharacterView({ id }: { id: string }) {
-  const [progress] = useProgress();
-  const c = CHARACTERS.find((x) => x.id === id);
+export default function CharacterView({ book, id }: { book: Book; id: string }) {
+  const [progress] = useProgress(book);
+  const c = book.characters.find((x) => x.id === id);
 
   const back = (
-    <Link href="/figuren" className="mb-4 inline-block text-sm text-accent">
+    <Link href={`/${book.slug}/figuren`} className="mb-4 inline-block text-sm text-accent">
       ← Alle Figuren
     </Link>
   );

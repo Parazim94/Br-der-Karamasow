@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import type { Book } from "@/books/types";
 import { describe } from "@/lib/book";
 import { useProgress } from "@/lib/progress";
+import { storageKey } from "@/lib/keys";
 import { formatDate, newId, useStoredList } from "@/lib/store";
 
 type Result = "open" | "hit" | "near" | "miss";
@@ -21,9 +23,9 @@ const LABELS: Record<Exclude<Result, "open">, string> = {
   miss: "Daneben",
 };
 
-export default function PredictionsView() {
-  const [progress] = useProgress();
-  const [items, update] = useStoredList<Prediction>("karamasow:predictions:v1");
+export default function PredictionsView({ book }: { book: Book }) {
+  const [progress] = useProgress(book);
+  const [items, update] = useStoredList<Prediction>(storageKey(book.slug, "predictions"));
   const [text, setText] = useState("");
 
   function add() {
@@ -43,7 +45,7 @@ export default function PredictionsView() {
   return (
     <div className="space-y-5">
       <section className="rounded-2xl border border-line bg-card p-4">
-        <p className="text-xs text-muted">Dein Tipp bei: {describe(progress)}</p>
+        <p className="text-xs text-muted">Dein Tipp bei: {describe(book, progress)}</p>
         <div className="mt-2 flex flex-wrap gap-2">
           {PROMPTS.map((p) => (
             <button
@@ -84,7 +86,7 @@ export default function PredictionsView() {
         {items.map((p) => (
           <li key={p.id} className="rounded-2xl border border-line bg-card p-4">
             <p className="text-xs text-muted">
-              {describe(p.at)} · {formatDate(p.createdAt)}
+              {describe(book, p.at)} · {formatDate(p.createdAt)}
               {p.result !== "open" && ` · ${LABELS[p.result]}`}
             </p>
             <p className="mt-2 whitespace-pre-wrap leading-relaxed">{p.text}</p>
