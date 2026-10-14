@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { bookFromParams } from "@/lib/route";
 import RelationsView from "@/components/RelationsView";
 
@@ -9,6 +10,7 @@ export async function generateMetadata({ params }: PageProps<"/[book]/beziehunge
 
 export default async function BeziehungenPage({ params }: PageProps<"/[book]/beziehungen">) {
   const book = await bookFromParams(params);
+  if (book.relations.length === 0) notFound();
   return (
     <>
       <h1 className="font-serif text-3xl">Beziehungen</h1>

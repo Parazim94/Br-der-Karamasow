@@ -12,7 +12,7 @@ export default async function BookLayout({ children, params }: LayoutProps<"/[bo
     <>
       {children}
       <RememberBook slug={book.slug} />
-      <BottomNav slug={book.slug} />
+      <BottomNav slug={book.slug} tabs={book.nav.tabs} more={book.nav.more ?? []} />
     </>
   );
 }

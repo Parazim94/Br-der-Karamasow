@@ -2,30 +2,48 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { NavId } from "@/books/types";
+import { MORE_ICON, NAV } from "@/lib/nav";
 
-const TABS = [
-  { href: "", label: "Heute", icon: "M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
-  { href: "/kapitel", label: "Kapitel", icon: "M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11" },
-  { href: "/figuren", label: "Figuren", icon: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0" },
-  { href: "/notizen", label: "Notizen", icon: "M4 20h4L19 9l-4-4L4 16zM13 7l4 4" },
-  { href: "/tipps", label: "Tipps", icon: "M12 3a6 6 0 0 0-4 10.5V16h8v-2.5A6 6 0 0 0 12 3zM9 20h6" },
-];
+type Tab = { href: string; label: string; icon: string; active: (pathname: string) => boolean };
 
-export default function BottomNav({ slug }: { slug: string }) {
+export default function BottomNav({ slug, tabs, more }: { slug: string; tabs: NavId[]; more: NavId[] }) {
   const pathname = usePathname();
+  const base = `/${slug}`;
+
+  const items: Tab[] = tabs.map((id) => {
+    const href = base + NAV[id].path;
+    return {
+      href,
+      label: NAV[id].label,
+      icon: NAV[id].icon,
+      active: (p) => (id === "heute" ? p === href : p.startsWith(href)),
+    };
+  });
+
+  if (more.length > 0) {
+    const moreHrefs = more.map((id) => base + NAV[id].path);
+    items.push({
+      href: `${base}/mehr`,
+      label: "Mehr",
+      icon: MORE_ICON,
+      // „Mehr“ leuchtet auch auf den Seiten, die sich dahinter verbergen.
+      active: (p) => p.startsWith(`${base}/mehr`) || moreHrefs.some((h) => p.startsWith(h)),
+    });
+  }
+
   return (
     <nav
       aria-label="Hauptnavigation"
       className="fixed inset-x-0 bottom-0 z-10 border-t border-line bg-paper/95 pb-[env(safe-area-inset-bottom)] backdrop-blur"
     >
       <ul className="mx-auto flex max-w-md">
-        {TABS.map((t) => {
-          const href = `/${slug}${t.href}`;
-          const active = t.href === "" ? pathname === href : pathname.startsWith(href);
+        {items.map((t) => {
+          const active = t.active(pathname);
           return (
-            <li key={href} className="flex-1">
+            <li key={t.href} className="flex-1">
               <Link
-                href={href}
+                href={t.href}
                 aria-current={active ? "page" : undefined}
                 className={`flex min-h-16 flex-col items-center justify-center gap-1 text-xs ${
                   active ? "font-semibold text-accent" : "text-muted"

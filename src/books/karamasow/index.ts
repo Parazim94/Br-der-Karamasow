@@ -13,6 +13,7 @@ export const karamasow: Book = {
   summaries: SUMMARIES,
   relations: RELATIONS,
   graph: { height: 480, nodes: NODES },
+  nav: { tabs: ["heute", "kapitel", "figuren", "notizen", "tipps"] },
   ai: {
     starters: [
       "Kann man ohne Glauben moralisch leben?",
