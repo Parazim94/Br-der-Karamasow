@@ -13,7 +13,7 @@ export function validateBook(book: Book): void {
   const inRange = (n: number) => Number.isInteger(n) && n >= 1 && n <= total;
 
   if (!/^[a-z0-9-]+$/.test(book.slug)) err(`Kennung „${book.slug}“ darf nur a–z, 0–9 und - enthalten`);
-  if (["api", "mehr", "kapitel", "figuren", "beziehungen", "notizen", "tipps", "denken"].includes(book.slug)) {
+  if (["api", "mehr", "kapitel", "figuren", "glossar", "beziehungen", "perspektiven", "notizen", "tipps", "denken"].includes(book.slug)) {
     err(`Kennung „${book.slug}“ ist für die App reserviert`);
   }
   if (new Set(book.sections.map((s) => s.id)).size !== book.sections.length) err("Abschnitts-Kennungen sind nicht eindeutig");
@@ -33,6 +33,12 @@ export function validateBook(book: Book): void {
     if (!inRange(c.unlockAt)) err(`Figur „${c.id}“: Freischaltpunkt ${c.unlockAt} liegt außerhalb des Buchs`);
     for (const f of c.facts) if (!inRange(f.at)) err(`Figur „${c.id}“: Info bei ${f.at} liegt außerhalb des Buchs`);
   }
+  const glossaryIds = new Set<string>();
+  for (const g of book.glossary ?? []) {
+    if (glossaryIds.has(g.id)) err(`Glossar: „${g.id}“ kommt doppelt vor`);
+    glossaryIds.add(g.id);
+    if (!inRange(g.at)) err(`Glossar „${g.id}“: Stelle ${g.at} liegt außerhalb des Buchs`);
+  }
   for (const s of book.summaries) if (!inRange(s.at)) err(`Rückblick bei ${s.at} liegt außerhalb des Buchs`);
   for (const r of book.relations) {
     for (const id of [r.a, r.b]) if (!ids.has(id)) err(`Beziehung ${r.a}–${r.b}: unbekannte Figur „${id}“`);
@@ -47,6 +53,10 @@ export function validateBook(book: Book): void {
   if (book.nav.tabs.length > max) err(`Navigation: höchstens ${max} Tabs${more.length > 0 ? " (plus „Mehr“)" : ""}, gefunden ${book.nav.tabs.length}`);
   if (new Set(all).size !== all.length) err("Navigation enthält ein Ziel doppelt");
   if (all.includes("beziehungen") && book.relations.length === 0) err("Navigation verweist auf Beziehungen, aber das Buch hat keine");
+  if (all.includes("glossar") && !(book.glossary?.length)) err("Navigation verweist auf das Glossar, aber das Buch hat keins");
+  if (all.includes("perspektiven") && !book.sections.some((s) => s.units?.some((u) => u.pov))) {
+    err("Navigation verweist auf Perspektiven, aber keine Einheit hat eine");
+  }
   if (all.includes("denken") && !book.ai) err("Navigation verweist auf das KI-Gespräch, aber das Buch hat keins");
 
   if (errors.length > 0) throw new Error(`Buch „${book.slug}“ ist fehlerhaft:\n- ${errors.join("\n- ")}`);

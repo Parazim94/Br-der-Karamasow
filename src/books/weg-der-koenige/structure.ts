@@ -5,10 +5,23 @@ import type { Section, Unit } from "../types";
 // Nicht gezählt werden „Vorspann“ und „Schlussbemerkung“: Sie gehören nicht zur Geschichte.
 // Die Einheiten stehen in der Reihenfolge, in der man sie hört.
 
+// Aus wessen Sicht eine Einheit erzählt wird. Wächst mit den Inhalten.
+const POV: Record<string, string> = {
+  Präludium: "Kalak",
+  Prolog: "Szeth",
+  "Kapitel 1": "Cenn",
+  "Kapitel 2": "Kaladin",
+  "Kapitel 3": "Shallan",
+  "Kapitel 4": "Kaladin",
+  "Kapitel 5": "Shallan",
+  "Kapitel 6": "Kaladin",
+};
+
 const unit = (name: string, title?: string, mark?: string): Unit => ({
   name,
   ...(title ? { title } : {}),
   ...(mark ? { mark } : {}),
+  ...(POV[name] ? { pov: POV[name] } : {}),
 });
 const chapters = (from: number, titles: string[]): Unit[] => titles.map((t, i) => unit(`Kapitel ${from + i}`, t));
 const interludes = (from: number, titles: string[]): Unit[] =>

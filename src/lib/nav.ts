@@ -20,6 +20,12 @@ export const NAV: Record<NavId, { label: string; path: string; icon: string; des
     icon: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0",
     desc: "Wer ist wer? Mit Spitznamen-Suche.",
   },
+  glossar: {
+    label: "Glossar",
+    path: "/glossar",
+    icon: "M5 4h14v16H5zM9 8h6M9 12h6M9 16h3",
+    desc: "Begriffe der Welt, sobald sie dir begegnet sind.",
+  },
   notizen: {
     label: "Notizen",
     path: "/notizen",
@@ -37,6 +43,12 @@ export const NAV: Record<NavId, { label: string; path: string; icon: string; des
     path: "/beziehungen",
     icon: "M6 6a2 2 0 1 0 0 .01M18 6a2 2 0 1 0 0 .01M12 19a2 2 0 1 0 0 .01M7.5 7.5l3.5 9M16.5 7.5L13 16.5M8 6h8",
     desc: "Wer gehört zu wem? Die Karte wächst mit dir.",
+  },
+  perspektiven: {
+    label: "Perspektiven",
+    path: "/perspektiven",
+    icon: "M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z",
+    desc: "Wer erzählt gerade? Aus wessen Sicht du bisher gehört hast.",
   },
   denken: {
     label: "Philosophieren",

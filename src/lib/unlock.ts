@@ -1,7 +1,13 @@
-import type { Book, Character, Relation } from "@/books/types";
+import type { Book, Character, GlossaryEntry, Relation } from "@/books/types";
 
 export function isUnlocked(unlockAt: number, progress: number): boolean {
   return unlockAt <= progress;
+}
+
+export function matchesTerm(g: GlossaryEntry, query: string): boolean {
+  const q = normalize(query.trim());
+  if (!q) return true;
+  return [g.term, ...g.aliases].some((n) => normalize(n).includes(q));
 }
 
 export function normalize(s: string): string {

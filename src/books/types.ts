@@ -11,6 +11,8 @@ export type Unit = {
   title?: string;
   /** Kurzer Text für den Knopf im Kapitelraster. Standard: die Zahl am Ende des Namens, sonst die laufende Nummer. */
   mark?: string;
+  /** Aus wessen Sicht das Kapitel erzählt wird (nur nach dem Lesen zu zeigen). */
+  pov?: string;
 };
 
 /** Ein Abschnitt des Buchs (z. B. „Buch 2“, „Teil I“, „Epilog“) mit seiner Kapitelzahl. */
@@ -38,6 +40,16 @@ export type Character = {
   facts: Fact[];
 };
 
+/** Ein Begriff der Buchwelt. Erst sichtbar, wenn `at` gelesen ist; der Text darf nur wissen, was bis dahin feststeht. */
+export type GlossaryEntry = {
+  id: string;
+  term: string;
+  /** Andere Schreibweisen, auch so, wie man den Begriff beim Hören verstehen könnte. */
+  aliases: string[];
+  text: string;
+  at: number;
+};
+
 /** Kurze Erinnerungsstütze zu einem Kapitel, sichtbar erst nach dem Lesen. */
 export type Summary = { at: number; text: string };
 
@@ -53,7 +65,16 @@ export type Relation = {
 export type GraphNode = { short: string; x: number; y: number };
 
 /** Seiten eines Buchs, die in der Navigation vorkommen können. */
-export type NavId = "heute" | "kapitel" | "figuren" | "notizen" | "tipps" | "beziehungen" | "denken";
+export type NavId =
+  | "heute"
+  | "kapitel"
+  | "figuren"
+  | "glossar"
+  | "notizen"
+  | "tipps"
+  | "beziehungen"
+  | "perspektiven"
+  | "denken";
 
 export type Book = {
   slug: string;
@@ -62,6 +83,7 @@ export type Book = {
   sections: Section[];
   characters: Character[];
   summaries: Summary[];
+  glossary?: GlossaryEntry[];
   relations: Relation[];
   graph: { height: number; nodes: Record<string, GraphNode> };
   /**

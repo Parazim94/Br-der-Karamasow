@@ -60,6 +60,7 @@ function Recaps({ book, sectionId, progress }: { book: Book; sectionId: string; 
           <summary className="min-h-11 cursor-pointer list-none py-3 text-sm font-medium">
             Rückblick {unitName(book, x.at)}
             {unitAt(book, x.at)?.title ? ` – ${unitAt(book, x.at)?.title}` : ""}
+            {unitAt(book, x.at)?.pov ? ` · ${unitAt(book, x.at)?.pov}` : ""}
           </summary>
           <p className="pb-3 text-sm leading-relaxed">{x.text}</p>
         </details>
