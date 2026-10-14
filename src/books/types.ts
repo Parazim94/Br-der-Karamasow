@@ -1,6 +1,18 @@
 // Datenmodell eines Buchs. Alles hier ist reine, serialisierbare Daten (keine Funktionen),
 // damit Server-Seiten ein Buch direkt an Client-Komponenten übergeben können.
 
+/**
+ * Eine Hör- oder Leseeinheit mit eigenem Namen (z. B. „Kapitel 12“, „Zwischenspiel 3“, „Prolog“).
+ * Bücher, deren Einheiten nicht einfach „Kapitel 1, 2, 3 …“ heißen, geben sie an.
+ */
+export type Unit = {
+  name: string;
+  /** Kapitelüberschrift, nur nach dem Lesen zu zeigen. */
+  title?: string;
+  /** Kurzer Text für den Knopf im Kapitelraster. Standard: die Zahl am Ende des Namens, sonst die laufende Nummer. */
+  mark?: string;
+};
+
 /** Ein Abschnitt des Buchs (z. B. „Buch 2“, „Teil I“, „Epilog“) mit seiner Kapitelzahl. */
 export type Section = {
   id: string;
@@ -8,6 +20,8 @@ export type Section = {
   part?: string;
   label: string;
   chapters: number;
+  /** Optional, dann genau `chapters` Einträge. Ohne Angabe heißen die Einheiten „Kapitel 1, 2, 3 …“. */
+  units?: Unit[];
 };
 
 // Jede Info ist erst sichtbar, wenn `at` (globale Kapitelnummer) gelesen ist.

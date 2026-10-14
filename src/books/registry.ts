@@ -1,8 +1,9 @@
 import type { Book } from "./types";
 import { karamasow } from "./karamasow";
+import { wegDerKoenige } from "./weg-der-koenige";
 import { validateBook } from "./validate";
 
-export const BOOKS: Book[] = [karamasow];
+export const BOOKS: Book[] = [karamasow, wegDerKoenige];
 
 for (const book of BOOKS) validateBook(book);
 

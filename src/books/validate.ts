@@ -18,6 +18,14 @@ export function validateBook(book: Book): void {
   }
   if (new Set(book.sections.map((s) => s.id)).size !== book.sections.length) err("Abschnitts-Kennungen sind nicht eindeutig");
 
+  for (const s of book.sections) {
+    if (s.units && s.units.length !== s.chapters) {
+      err(`Abschnitt „${s.id}“: ${s.chapters} Kapitel, aber ${s.units.length} benannte Einheiten`);
+    }
+  }
+  const unitNames = book.sections.flatMap((s) => s.units?.map((u) => u.name) ?? []);
+  if (new Set(unitNames).size !== unitNames.length) err("Einheiten-Namen sind nicht eindeutig");
+
   const ids = new Set<string>();
   for (const c of book.characters) {
     if (ids.has(c.id)) err(`Figur „${c.id}“ kommt doppelt vor`);

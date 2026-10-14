@@ -73,16 +73,18 @@ export default function HomeView({ book }: { book: Book }) {
         </section>
       )}
 
-      <section className="rounded-2xl border border-line bg-card p-5">
-        <p className="text-sm text-muted">Figuren</p>
-        <p className="mt-1 font-serif text-xl">
-          {unlocked} von {book.characters.length} freigeschaltet
-        </p>
-        <p className="mt-1 text-sm text-muted">Neue Figuren und Infos erscheinen, sobald du sie im Buch kennengelernt hast.</p>
-        <Link href={`/${book.slug}/figuren`} className="mt-3 inline-block text-sm font-semibold text-accent">
-          Zu den Figuren →
-        </Link>
-      </section>
+      {book.characters.length > 0 && (
+        <section className="rounded-2xl border border-line bg-card p-5">
+          <p className="text-sm text-muted">Figuren</p>
+          <p className="mt-1 font-serif text-xl">
+            {unlocked} von {book.characters.length} freigeschaltet
+          </p>
+          <p className="mt-1 text-sm text-muted">Neue Figuren und Infos erscheinen, sobald du sie im Buch kennengelernt hast.</p>
+          <Link href={`/${book.slug}/figuren`} className="mt-3 inline-block text-sm font-semibold text-accent">
+            Zu den Figuren →
+          </Link>
+        </section>
+      )}
 
       {book.ai && (
         <section className="rounded-2xl border border-line bg-card p-5">

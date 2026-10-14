@@ -1,7 +1,7 @@
 "use client";
 
 import type { Book } from "@/books/types";
-import { chapterNumber, locate } from "@/lib/book";
+import { chapterNumber, describe, locate, unitAt, unitMark, unitName } from "@/lib/book";
 import { useProgress } from "@/lib/progress";
 
 export default function ChapterList({ book }: { book: Book }) {
@@ -27,12 +27,12 @@ export default function ChapterList({ book }: { book: Book }) {
                       // Tipp auf das aktuelle Kapitel macht es rückgängig.
                       onClick={() => setProgress(isCurrent ? n - 1 : n)}
                       aria-pressed={read}
-                      aria-label={`${section.label}, Kapitel ${k + 1}${read ? ", gelesen" : ""}`}
+                      aria-label={`${describe(book, n)}${read ? ", gelesen" : ""}`}
                       className={`flex aspect-square w-full items-center justify-center rounded-xl border text-sm font-medium ${
                         read ? "border-accent bg-accent text-accent-ink" : "border-line bg-card text-ink"
                       } ${isCurrent ? "ring-2 ring-accent ring-offset-2 ring-offset-paper" : ""}`}
                     >
-                      {k + 1}
+                      {unitMark(section.units?.[k], k)}
                     </button>
                   </li>
                 );
@@ -58,7 +58,8 @@ function Recaps({ book, sectionId, progress }: { book: Book; sectionId: string; 
       {items.map((x) => (
         <details key={x.at} className="rounded-xl border border-line bg-card px-4 py-1">
           <summary className="min-h-11 cursor-pointer list-none py-3 text-sm font-medium">
-            Rückblick Kapitel {locate(book, x.at)?.chapter}
+            Rückblick {unitName(book, x.at)}
+            {unitAt(book, x.at)?.title ? ` – ${unitAt(book, x.at)?.title}` : ""}
           </summary>
           <p className="pb-3 text-sm leading-relaxed">{x.text}</p>
         </details>
